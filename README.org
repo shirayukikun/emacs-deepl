@@ -1,0 +1,51 @@
+* emacs-deepl
+** 概要
+emacs上でDeepLによる翻訳機能を利用するためのコードです. 日本語と英語の間での翻訳をすることを想定して設計されています. 
+
+** 依存関係
+以下のpythonライブラリを利用しています. 
+- requests
+
+'pip install requests'等でインストールしてください. 
+
+また, 以下の2つのWeb APIを利用しています
+- DeepL API (Free)
+ - https://www.deepl.com/ja/docs-api/
+
+- PDF To Text
+ - https://english.api.rakuten.net/sam.koucha/api/pdf-to-text/pricing
+
+それぞれ, APIキーを取得してください. 
+
+** 使用開始前の設定
+*** ファイルのロード
+emacs-deeplのディレクトリごと任意の場所に設置し, emacsの初期化ファイル(~/.emacs.d/init.el等)から, emacs-deppl.elをload-fileで読み込んでください.
+ 
+例: ~/.emacs.d/emacs-deeplとディレクトリが配置されている場合
+
+(load-file "~/.emacs.d/emacs-deepl/emacs-deepl.el")
+
+*** config.jsonの設定
+config.jsonにDeepL APIのauthorization_keyと, PDF To TextのAPI keyを設定してください
+(既にemacs-depplをロードしている場合には, 再度ロードしてください)
+
+
+** 機能とその利用方法
+本ソフトでは, 以下の3つのelisp関数が実装されています. 
+- DeepL-translate
+- DeepL-translate-region
+- DeepL-translate-pdf
+
+
+*** DeepL-translate
+利用方法 : M-x DeepL-translateと入力
+機能 : コマンドを実行するとミニバッファが入力待ちとなります. ミニバッファに英語または, 日本語の文や単語を入力すると, DeepLによって翻訳された結果が*DeepL*バッファに出力されます. 
+
+*** DeepL-translate-region
+利用方法 : 翻訳したい範囲を選択し, M-x DeepL-translate-regionと入力
+機能 : 初めに, 翻訳したい英語または日本語の文書の範囲を選択してください. その後, このコマンドを実行すると選択された範囲がDeepLによって翻訳され, 結果が*DeepL*バッファに出力されます.
+
+*** DeepL-translate-pdf
+利用方法 : emacs上でpdfファイルを開いた状態で, M-x DeepL-translate-pdfと入力
+機能 : カレントバッファに表示中のpdfファイルをDeepLによって翻訳します. pdfファイルであるかどうかは拡張子が'.pdf'であるかで判断されます. コマンドを実行するとpdfファイル内のテキストがDeepLによって翻訳され, 結果が*DeepL*バッファに出力されます.
+
